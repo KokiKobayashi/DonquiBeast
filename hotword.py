@@ -31,6 +31,7 @@ from google.assistant.library.file_helpers import existing_file
 import subprocess
 
 import time
+import Motor
 
 
 
@@ -55,29 +56,8 @@ def process_event(event):
         if (event.args['text'] == 'take a picture' or event.args['text'] == 'take pictures'):
             # 写真撮影
             subprocess.call("raspistill -o image.jpg", shell = True)
-        if (event.args['text'] == 'stop'):
-            # モータ停止
-            subprocess.call("./motor 0", shell = True)
-        if (event.args['text'] == 'go forward' or event.args['text'] == 'forward' or event.args['text'] == 'front' ):
-            # 前進
-            subprocess.call("./motor 1", shell = True)
-#            time.sleep(5)
-#            subprocess.call("./motor 0", shell = True)
-        if (event.args['text'] == 'go backward' or event.args['text'] == 'backward' or event.args['text'] == 'back'):
-            # 後退
-            subprocess.call("./motor 2", shell = True)
-#            time.sleep(5)
-#            subprocess.call("./motor 0", shell = True)
-        if (event.args['text'] == 'turn left'):
-            # 方向転換：左
-            subprocess.call("./motor 3", shell = True)
-            time.sleep(1)
-            subprocess.call("./motor 0", shell = True)
-        if (event.args['text'] == 'turn right'):
-            # 方向転換：右
-            subprocess.call("./motor 4", shell = True)
-            time.sleep(1)
-            subprocess.call("./motor 0", shell = True)
+        # モータ制御
+        Motor.control(event.args['text'])
 
     if (event.type == EventType.ON_CONVERSATION_TURN_FINISHED and
             event.args and not event.args['with_follow_on_turn']):

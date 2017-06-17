@@ -38,18 +38,26 @@ printf("%d", decode(argv[1]));
     case FORWARD:
         printf("front\n");
         MoveFront(left, right);
+        sleep(5);
+        Stop(left, right);
         break;
     case BACKWARD:
         printf("back\n");
         MoveBack(left, right);
+        sleep(5);
+        Stop(left, right);
         break;
     case LEFT:
         printf("turn left\n");
         TurnLeft(left, right);
+        sleep(1);
+        Stop(left, right);
         break;
     case RIGHT:
         printf("turn right\n");
         TurnRight(left, right);
+        sleep(1);
+        Stop(left, right);
         break;
     default:
         printf("default\n");

@@ -1,6 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#include <time.h>
+#include <sys/time.h>
+
 #include <wiringPi.h>
 
 #define STOP 0
@@ -22,13 +25,19 @@ int main (int argc, char *argv[]) {
     }
 
     gpio left, right;
+    struct timespec reqleft, reqright;
 
     left.front = 21;
     left.back = 22;
-    right.front = 2;
-    right.back = 3;
+    right.front = 23;
+    right.back = 24;
 
-printf("%d", decode(argv[1]));
+    reqleft.tv_sec = 0;
+    reqleft.tv_nsec = 550000000;
+    reqright.tv_sec = 0;
+    reqright.tv_nsec = 579000000;
+
+//printf("%d", decode(argv[1]));
 
     switch (atoi(argv[1])) {
     case STOP:
@@ -50,13 +59,13 @@ printf("%d", decode(argv[1]));
     case LEFT:
         printf("turn left\n");
         TurnLeft(left, right);
-        sleep(1);
+        nanosleep(&reqleft, NULL);
         Stop(left, right);
         break;
     case RIGHT:
         printf("turn right\n");
         TurnRight(left, right);
-        sleep(1);
+        nanosleep(&reqright, NULL);
         Stop(left, right);
         break;
     default:

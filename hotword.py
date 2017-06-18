@@ -32,10 +32,12 @@ import subprocess
 
 import time
 import Motor
+import Weather
 
 
+is_moved = False
 
-def process_event(event):
+def process_event(event, assistant):
     """Pretty prints events.
 
     Prints all events that occur with two spaces between each new
@@ -50,14 +52,22 @@ def process_event(event):
     print(event)
 
     if event.type == EventType.ON_RECOGNIZING_SPEECH_FINISHED:
-        if (event.args['text'] == 'play music' or event.args['text'] == 'play the music' or event.args['text'] == 'play Miracle shopping'):
+        print()
+        if (event.args['text'] == 'play music' or event.args['text'] == 'play the music' or event.args['text'] == 'play Miracle shopping' or event.args['text'] == 'donkihote'):
             # 音楽再生
             subprocess.call("aplay shopping-short.wav", shell = True)
         if (event.args['text'] == 'take a picture' or event.args['text'] == 'take pictures'):
             # 写真撮影
             subprocess.call("raspistill -o image.jpg", shell = True)
+        if (event.args['text'] == 'weather'):
+            print (Weather.get())
         # モータ制御
-        Motor.control(event.args['text'])
+        is_moved = Motor.control(event.args['text'])
+        if (is_moved == True):
+            assistant.stop_conversation()
+
+    if (event.type == EventType.ON_RESPONDING_STARTED):
+        print()
 
     if (event.type == EventType.ON_CONVERSATION_TURN_FINISHED and
             event.args and not event.args['with_follow_on_turn']):
@@ -82,7 +92,7 @@ def main():
 
     with Assistant(credentials) as assistant:
         for event in assistant.start():
-            process_event(event)
+            process_event(event, assistant)
 
 
 if __name__ == '__main__':

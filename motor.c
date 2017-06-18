@@ -11,6 +11,7 @@
 #define BACKWARD 2
 #define LEFT 3
 #define RIGHT 4
+#define AROUND 5
 
 typedef struct gp{
     int front;
@@ -33,7 +34,7 @@ int main (int argc, char *argv[]) {
     right.back = 24;
 
     reqleft.tv_sec = 0;
-    reqleft.tv_nsec = 550000000;
+    reqleft.tv_nsec = 580000000;
     reqright.tv_sec = 0;
     reqright.tv_nsec = 579000000;
 
@@ -66,6 +67,13 @@ int main (int argc, char *argv[]) {
         printf("turn right\n");
         TurnRight(left, right);
         nanosleep(&reqright, NULL);
+        Stop(left, right);
+        break;
+    case AROUND:
+        printf("turn around\n");
+        TurnRight(left, right);
+        nanosleep(&reqright, NULL);
+        nanosleep(&reqleft, NULL);
         Stop(left, right);
         break;
     default:

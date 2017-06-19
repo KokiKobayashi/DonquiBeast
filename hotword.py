@@ -29,6 +29,7 @@ from google.assistant.library.file_helpers import existing_file
 
 #for playing music
 import subprocess
+from subprocess import Popen
 
 import time
 import Motor
@@ -36,8 +37,9 @@ import Weather
 
 
 is_moved = False
-
+p=1
 def process_event(event, assistant):
+    global p
     """Pretty prints events.
 
     Prints all events that occur with two spaces between each new
@@ -53,14 +55,25 @@ def process_event(event, assistant):
 
     if event.type == EventType.ON_RECOGNIZING_SPEECH_FINISHED:
         print()
-        if (event.args['text'] == 'play music' or event.args['text'] == 'play the music' or event.args['text'] == 'play Miracle shopping' or event.args['text'] == 'donkihote'):
+        if (event.args['text'] == 'music start' or event.args['text'] == 'play music' or event.args['text'] == 'play the music' or event.args['text'] == 'play Miracle shopping' or event.args['text'] == 'donkihote'):
             # 音楽再生
-            subprocess.call("aplay shopping-short.wav", shell = True)
+            p = Popen("aplay shopping-short.wav", shell = True)
+#        if (event.args['text'] == 'stop music' or event.args['text'] == 'stop' or event.args['text'] == 'music stop' or event.args['text'] == 'stop it'):
+#            # 音楽stop
+#            p.terminate()
         if (event.args['text'] == 'take a picture' or event.args['text'] == 'take pictures'):
             # 写真撮影
             subprocess.call("raspistill -o image.jpg", shell = True)
         if (event.args['text'] == 'weather'):
-            print (Weather.get())
+            if (Weather.get()[0] == '晴'):
+#                subprocess.call("gpicview sunny.png", shell = True)
+                Popen("gpicview sunny.png", shell = True)
+            if (Weather.get()[0] == '曇'):
+                Popen("gpicview cloudy.png", shell = True)
+            if (Weather.get()[0] == '雨'):
+                Popen("gpicview rainy.png", shell = True)
+            if (Weather.get()[0] == '雪'):
+                Popen("gpicview snowy.png", shell = True)
         # モータ制御
         is_moved = Motor.control(event.args['text'])
         if (is_moved == True):

@@ -24,7 +24,7 @@ def get():
  
         # 取得したデータを表示
         # titleとforecastsの最初の要素のtelopを表示
-        print (weather['title'] + " : " + weather['forecasts'][0]['telop'])
+        # print (weather['title'] + " : " + weather['forecasts'][0]['telop'])
         
  
     finally:

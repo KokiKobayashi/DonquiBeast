@@ -1,0 +1,7 @@
+#!/usr/bin/env python
+
+from PIL import Image
+
+im = Image.open("image.jpg")
+print (image.__class__)
+im.show()

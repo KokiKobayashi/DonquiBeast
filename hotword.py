@@ -58,12 +58,14 @@ def process_event(event, assistant):
         if (event.args['text'] == 'music start' or event.args['text'] == 'play music' or event.args['text'] == 'play the music' or event.args['text'] == 'play Miracle shopping' or event.args['text'] == 'donkihote'):
             # 音楽再生
             p = Popen("aplay shopping-short.wav", shell = True)
+            assistant.stop_conversation()
 #        if (event.args['text'] == 'stop music' or event.args['text'] == 'stop' or event.args['text'] == 'music stop' or event.args['text'] == 'stop it'):
 #            # 音楽stop
 #            p.terminate()
         if (event.args['text'] == 'take a picture' or event.args['text'] == 'take pictures'):
             # 写真撮影
             subprocess.call("raspistill -o image.jpg", shell = True)
+            assistant.stop_conversation()
         if (event.args['text'] == 'weather'):
             if (Weather.get()[0] == '晴'):
 #                subprocess.call("gpicview sunny.png", shell = True)
@@ -109,4 +111,5 @@ def main():
 
 
 if __name__ == '__main__':
+    Popen("gpicview red.png", shell = True)
     main()

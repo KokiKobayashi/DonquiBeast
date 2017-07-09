@@ -26,10 +26,10 @@ int main (int argc, char *argv[]) {
 
     gpio left, right;
 
-    left.front = 21;
-    left.back = 22;
-    right.front = 23;
-    right.back = 24;
+    left.front = 24;
+    left.back = 23;
+    right.front = 22;
+    right.back = 21;
 
     switch (atoi(argv[1])) {
     case STOP:

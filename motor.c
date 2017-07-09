@@ -28,10 +28,10 @@ int main (int argc, char *argv[]) {
     gpio left, right;
     struct timespec reqleft, reqright;
 
-    left.front = 21;
-    left.back = 22;
-    right.front = 23;
-    right.back = 24;
+    left.front = 24;
+    left.back = 23;
+    right.front = 22;
+    right.back = 21;
 
     reqleft.tv_sec = 0;
     reqleft.tv_nsec = 580000000;
